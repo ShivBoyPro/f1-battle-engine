@@ -70,7 +70,7 @@ F1 Battle Engine is a sophisticated telemetry analysis system that processes For
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -122,7 +122,7 @@ python -c "import streamlit; import fastf1; print('✓ Installation successful')
 
 ---
 
-## 📖 Usage
+## Usage
 
 ### Starting the Application
 
@@ -153,22 +153,22 @@ Click the **▶ RUN ANALYSIS** button. The application will:
 #### **Step 3: Explore Results**
 Navigate through four analytical tabs:
 
-**📈 Velocity & Delta**
+** Velocity & Delta**
 - Speed profiles for both drivers
 - Time delta evolution across the lap
 - Identify key performance zones
 
-**⚡ G-Forces**
+** G-Forces**
 - Longitudinal acceleration (braking/acceleration)
 - Lateral acceleration (cornering)
 - Peak force identification and comparison
 
-**🎛️ Pedals**
+** Pedals**
 - Throttle position throughout lap
 - Brake application timing and intensity
 - Input synchronization analysis
 
-**📊 Sectors**
+** Sectors**
 - Mini-sector performance breakdown
 - Average speed per segment
 - Peak braking force per segment
