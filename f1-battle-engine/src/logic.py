@@ -125,6 +125,7 @@ class TelemetryEngine:
             try:
                 x = t["X"].values
                 y = t["Y"].values
+                distance = t["Distance"].values
                 
                 # Vectorized: compute heading angle from position deltas
                 dx = np.gradient(x)
@@ -132,11 +133,10 @@ class TelemetryEngine:
                 heading = np.arctan2(dy, dx)
                 heading = np.unwrap(heading)
                 
-                # Curvature = dθ/ds, Gy = κ * v²
-                ds = np.gradient(t["Distance"].values)
-                ds = np.maximum(ds, 1e-6)  # Avoid divide by zero
-                curvature = np.gradient(heading) / ds
-                t["Gy"] = curvature * (v_ms ** 2) / 9.81
+                # FIX: Curvature = dθ/ds using distance as the independent variable
+                curvature = np.gradient(heading, distance)
+                v_ms_safe = np.where(v_ms > 0, v_ms, 1e-6)
+                t["Gy"] = curvature * (v_ms_safe ** 2) / 9.81
             except Exception as e:
                 log.warning("  Gy computation failed for %s: %s", driver, e)
                 t["Gy"] = np.nan
@@ -160,7 +160,10 @@ class TelemetryEngine:
                            d1: str, d2: str) -> pd.DataFrame:
         """Interpolate both drivers onto shared 1m distance grid (vectorized)."""
         max_dist = min(t1["Distance"].max(), t2["Distance"].max())
-        grid = np.linspace(0, max_dist, int(max_dist))
+        
+        # FIX: Ensure at least 100 points, avoid grid size < 1
+        num_points = max(100, int(max_dist))
+        grid = np.linspace(0, max_dist, num_points)
 
         # ── Vectorized interpolation ──────────────────────────────────────
         def interp_col(df, col):
@@ -170,16 +173,25 @@ class TelemetryEngine:
         # Build output in one pass
         out = pd.DataFrame({"Distance": grid})
         
-        # Interpolate common columns
-        for col in ["Speed_smooth", "Gx", "Gy", "DRS_active", "Throttle", "Brake"]:
+        # Interpolate common columns (FIX: ensure both drivers have consistent columns)
+        cols_to_interpolate = ["Speed_smooth", "Gx", "Gy", "DRS_active", "Throttle", "Brake"]
+        for col in cols_to_interpolate:
+            col_d1 = f"{col}_{d1}"
+            col_d2 = f"{col}_{d2}"
+            
+            # Ensure both drivers are present for each column
             if col in t1.columns:
-                out[f"{col}_{d1}"] = interp_col(t1, col)
+                out[col_d1] = interp_col(t1, col)
+            else:
+                out[col_d1] = np.nan
+                
             if col in t2.columns:
-                out[f"{col}_{d2}"] = interp_col(t2, col)
+                out[col_d2] = interp_col(t2, col)
+            else:
+                out[col_d2] = np.nan
 
         # Time-based delta
-        time1 = interp_col(t1, "Time_s") if "Time_s" in t1.columns else \
-                np.interp(grid, t1["Distance"].values, t1["Time"].dt.total_seconds().values)
+        time1 = np.interp(grid, t1["Distance"].values, t1["Time"].dt.total_seconds().values)
         time2 = np.interp(grid, t2["Distance"].values, t2["Time"].dt.total_seconds().values)
 
         out[f"Time_{d1}"] = time1
@@ -224,7 +236,8 @@ class TelemetryEngine:
             return round(series.max(), 1) if series.notna().any() else 0.0
 
         def safe_abs_max(series):
-            return round(series.abs().max(), 2) if series.notna().any() else None
+            valid = series[series.notna()]
+            return round(valid.abs().max(), 2) if len(valid) > 0 else None
 
         return {
             "drivers": [d1, d2],

@@ -23,85 +23,194 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght=300;400;500&family=Barlow+Condensed:wght=300;400;600;700&display=swap');
 
-html, body, [class*="st-"] {
+/* FIX: Targeted body and main canvas font styling without breaking component wrappers */
+html, body, p, div, span, label {
     font-family: 'DM Mono', monospace;
-    background-color: #0a0a0a;
-    color: #e8e4da;
 }
-.main { background-color: #0a0a0a; }
-.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+.main { 
+    background-color: #0a0a0a; 
+}
+.block-container { 
+    padding-top: 1.5rem; 
+    padding-bottom: 2rem; 
+}
 
-[data-testid="stSidebar"] { background-color: #111; border-right: 1px solid #222; }
+/* Sidebar Specific Overrides */
+[data-testid="stSidebar"] { 
+    background-color: #111111 !important; 
+    border-right: 1px solid #222222; 
+}
 [data-testid="stSidebar"] label,
 [data-testid="stSidebar"] .stMarkdown p {
     font-family: 'DM Mono', monospace;
-    font-size: 11px; color: #666;
-    text-transform: uppercase; letter-spacing: 0.08em;
+    font-size: 11px; 
+    color: #666666;
+    text-transform: uppercase; 
+    letter-spacing: 0.08em;
 }
 [data-testid="stSidebar"] .stButton > button {
-    background-color: #c8ff00; color: #0a0a0a; border: none; border-radius: 3px;
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-    font-size: 15px; letter-spacing: 0.14em; padding: 12px; width: 100%; margin-top: 8px;
+    background-color: #c8ff00; 
+    color: #0a0a0a; 
+    border: none; 
+    border-radius: 3px;
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-weight: 700;
+    font-size: 15px; 
+    letter-spacing: 0.14em; 
+    padding: 12px; 
+    width: 100%; 
+    margin-top: 8px;
 }
-[data-testid="stSidebar"] .stButton > button:hover { background-color: #d9ff1a; }
+[data-testid="stSidebar"] .stButton > button:hover { 
+    background-color: #d9ff1a; 
+}
 
 .wordmark {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-    font-size: 13px; letter-spacing: 0.22em; color: #c8ff00; margin-bottom: 1.5rem;
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-weight: 700;
+    font-size: 13px; 
+    letter-spacing: 0.22em; 
+    color: #c8ff00; 
+    margin-bottom: 1.5rem;
 }
 .page-header {
-    border-bottom: 1px solid #1e1e1e; padding-bottom: 1rem;
-    margin-bottom: 1.5rem; display: flex; align-items: baseline; gap: 1.5rem;
+    border-bottom: 1px solid #1e1e1e; 
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem; 
+    display: flex; 
+    align-items: baseline; 
+    gap: 1.5rem;
 }
 .page-title {
-    font-family: 'Barlow Condensed', sans-serif; font-size: 42px;
-    font-weight: 700; letter-spacing: -0.5px; color: #f0ece0; line-height: 1;
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-size: 42px;
+    font-weight: 700; 
+    letter-spacing: -0.5px; 
+    color: #f0ece0; 
+    line-height: 1;
 }
-.page-meta { font-size: 11px; color: #444; letter-spacing: 0.06em; }
+.page-meta { 
+    font-size: 11px; 
+    color: #444444; 
+    letter-spacing: 0.06em; 
+}
 
 .stat-strip {
-    display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 1px; background: #1a1a1a; border: 1px solid #1a1a1a;
-    border-radius: 4px; margin-bottom: 1.5rem;
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px; 
+    background: #1a1a1a; 
+    border: 1px solid #1a1a1a;
+    border-radius: 4px; 
+    margin-bottom: 1.5rem;
 }
-.stat-cell { background: #0a0a0a; padding: 14px 18px; }
-.stat-label { font-size: 9px; color: #444; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
-.stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 600; color: #f0ece0; line-height: 1; }
-.stat-unit { font-size: 10px; color: #555; margin-left: 3px; }
+.stat-cell { 
+    background: #0a0a0a; 
+    padding: 14px 18px; 
+}
+.stat-label { 
+    font-size: 9px; 
+    color: #444444; 
+    letter-spacing: 0.12em; 
+    text-transform: uppercase; 
+    margin-bottom: 4px; 
+}
+.stat-value { 
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-size: 26px; 
+    font-weight: 600; 
+    color: #f0ece0; 
+    line-height: 1; 
+}
+.stat-unit { 
+    font-size: 10px; 
+    color: #555555; 
+    margin-left: 3px; 
+}
 .stat-accent-1 { color: #4fc3f7; }
 .stat-accent-2 { color: #ff7043; }
 .stat-accent-delta { color: #c8ff00; }
 
 .section-label {
-    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: #444; margin-bottom: 8px; margin-top: 1.5rem;
+    font-size: 9px; 
+    letter-spacing: 0.2em; 
+    text-transform: uppercase;
+    color: #444444; 
+    margin-bottom: 8px; 
+    margin-top: 1.5rem;
 }
-.sector-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.sector-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 11px; 
+}
 .sector-table th {
-    color: #444; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-    text-align: left; padding: 6px 10px; border-bottom: 1px solid #1e1e1e; font-weight: 400;
+    color: #444444; 
+    font-size: 9px; 
+    letter-spacing: 0.12em; 
+    text-transform: uppercase;
+    text-align: left; 
+    padding: 6px 10px; 
+    border-bottom: 1px solid #1e1e1e; 
+    font-weight: 400;
 }
-.sector-table td { padding: 7px 10px; border-bottom: 1px solid #141414; color: #c0baa8; font-variant-numeric: tabular-nums; }
-.sector-table tr:hover td { background: #111; }
+.sector-table td { 
+    padding: 7px 10px; 
+    border-bottom: 1px solid #141414; 
+    color: #c0baa8; 
+    font-variant-numeric: tabular-nums; 
+}
+.sector-table tr:hover td { 
+    background: #111111; 
+}
 .gain { color: #c8ff00; }
 .loss { color: #ff5252; }
 .status-bar {
-    font-size: 10px; color: #333; letter-spacing: 0.08em;
-    border-top: 1px solid #1a1a1a; padding-top: 10px; margin-top: 2rem;
-    display: flex; justify-content: space-between;
+    font-size: 10px; 
+    color: #333333; 
+    letter-spacing: 0.08em;
+    border-top: 1px solid #1a1a1a; 
+    padding-top: 10px; 
+    margin-top: 2rem;
+    display: flex; 
+    justify-content: space-between;
 }
 .idle-wrap {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: 65vh; gap: 16px; text-align: center;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center; 
+    min-height: 65vh; 
+    gap: 16px; 
+    text-align: center;
 }
-.idle-glyph { font-size: 56px; color: #1c1c1c; line-height: 1; font-family: 'Barlow Condensed', sans-serif; }
-.idle-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 600; color: #2a2a2a; }
-.idle-sub { font-size: 11px; color: #2a2a2a; letter-spacing: 0.16em; text-transform: uppercase; }
+.idle-glyph { 
+    font-size: 56px; 
+    color: #1c1c1c; 
+    line-height: 1; 
+    font-family: 'Barlow Condensed', sans-serif; 
+}
+.idle-title { 
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-size: 22px; 
+    font-weight: 600; 
+    color: #2a2a2a; 
+}
+.idle-sub { 
+    font-size: 11px; 
+    color: #2a2a2a; 
+    letter-spacing: 0.16em; 
+    text-transform: uppercase; 
+}
 .error-block {
-    background: rgba(255,82,82,0.08); border: 1px solid rgba(255,82,82,0.2);
-    border-radius: 4px; padding: 16px; font-size: 12px; color: #ff5252;
+    background: rgba(255,82,82,0.08); 
+    border: 1px solid rgba(255,82,82,0.2);
+    border-radius: 4px; 
+    padding: 16px; 
+    font-size: 12px; 
+    color: #ff5252;
 }
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -137,7 +246,6 @@ def get_drivers(year: int, gp: str, session_type: str):
 
 @st.cache_resource
 def get_engine(n_sectors: int):
-    """Cache engine instance to avoid reinit."""
     return TelemetryEngine(n_sectors=n_sectors)
 
 FALLBACK_DRIVERS = ["ALB","ALO","BOT","GAS","HAM","HUL","LEC","MAG",
@@ -148,15 +256,15 @@ with st.sidebar:
     st.markdown('<div class="wordmark">⬡ BATTLE ENGINE</div>', unsafe_allow_html=True)
 
     st.markdown("Season")
-    year = st.selectbox("Season", AVAILABLE_YEARS, label_visibility="collapsed")
+    year = st.selectbox("Season Dropdown", AVAILABLE_YEARS, label_visibility="collapsed", key="sb_year")
 
     st.markdown("Circuit")
     with st.spinner("Loading schedule…"):
         circuits = get_circuits(year) or ["Silverstone", "Monaco", "Spa", "Monza"]
-    gp = st.selectbox("Circuit", circuits, label_visibility="collapsed")
+    gp = st.selectbox("Circuit Dropdown", circuits, label_visibility="collapsed", key="sb_gp")
 
     st.markdown("Session")
-    session_label = st.selectbox("Session", ["Qualifying", "Race", "Sprint"], label_visibility="collapsed")
+    session_label = st.selectbox("Session Dropdown", ["Qualifying", "Race", "Sprint"], label_visibility="collapsed", key="sb_sess")
     s_key = {"Qualifying": "Q", "Race": "R", "Sprint": "S"}[session_label]
 
     st.markdown("&nbsp;", unsafe_allow_html=True)
@@ -169,14 +277,24 @@ with st.sidebar:
     else:
         driver_list = FALLBACK_DRIVERS
 
-    d1 = st.selectbox("Driver 1", driver_list,
-                      index=driver_list.index("HAM") if "HAM" in driver_list else 0,
-                      label_visibility="collapsed")
-    d2 = st.selectbox("Driver 2", driver_list,
-                      index=driver_list.index("VER") if "VER" in driver_list else min(1, len(driver_list)-1),
-                      label_visibility="collapsed")
+    try:
+        idx_d1 = driver_list.index("HAM") if "HAM" in driver_list else 0
+    except ValueError:
+        idx_d1 = 0
 
-    n_sectors = st.slider("Mini-sectors", 10, 30, 20)
+    try:
+        idx_d2 = driver_list.index("VER") if "VER" in driver_list else min(1, len(driver_list)-1)
+    except ValueError:
+        idx_d2 = min(1, len(driver_list)-1) if len(driver_list) > 1 else 0
+
+    d1 = st.selectbox("Driver 1 Selection", driver_list,
+                      index=idx_d1,
+                      label_visibility="collapsed", key="sb_d1")
+    d2 = st.selectbox("Driver 2 Selection", driver_list,
+                      index=idx_d2,
+                      label_visibility="collapsed", key="sb_d2")
+
+    n_sectors = st.slider("Mini-sectors", 10, 30, 20, key="sb_sectors")
     st.markdown("&nbsp;", unsafe_allow_html=True)
     run_btn = st.button("▶  RUN ANALYSIS", use_container_width=True)
 
@@ -214,12 +332,10 @@ st.markdown(f"""
 if run_btn:
     current_params = (year, gp, s_key, d1, d2, n_sectors)
     
-    # Check if results are cached
-    if st.session_state.cached_result and st.session_state.cached_params == current_params[:-1]:
+    if st.session_state.cached_result and st.session_state.cached_params == current_params:
         result = st.session_state.cached_result
         st.success("✓ Using cached results", icon="✓")
     else:
-        # Run analysis with progress tracking
         progress_bar = st.progress(0, text="Loading session…")
         
         try:
@@ -231,9 +347,8 @@ if run_btn:
             
             progress_bar.progress(80, text="Finalizing…")
             
-            # Cache the result
             st.session_state.cached_result = result
-            st.session_state.cached_params = current_params[:-1]
+            st.session_state.cached_params = current_params
             
             progress_bar.progress(100, text="Complete!")
             
@@ -276,7 +391,6 @@ if run_btn:
     </div>
     """, unsafe_allow_html=True)
 
-    # Use tabs for chart sections (lazy loading)
     tab1, tab2, tab3, tab4 = st.tabs(["Velocity & Delta", "G-Forces", "Pedals", "Sectors"])
 
     with tab1:
@@ -347,7 +461,6 @@ if run_btn:
 
     with tab4:
         st.markdown('<div class="section-label">Mini-sector breakdown</div>', unsafe_allow_html=True)
-        # Use st.dataframe instead of HTML for better performance
         display_df = sectors.copy()
         display_df = display_df[[
             "Sector", "Dist_start", "Dist_end", 
