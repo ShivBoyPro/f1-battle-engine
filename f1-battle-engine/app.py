@@ -29,7 +29,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap');
 
-html, body, [class*="st-"] {
+html, body, .stApp {
     font-family: 'DM Mono', monospace;
     background-color: #0a0a0a;
     color: #e8e4da;
@@ -37,6 +37,25 @@ html, body, [class*="st-"] {
 .main { background-color: #0a0a0a; }
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 
+/* --- HEADER FIXES --- */
+/* Hide the deploy button and main menu */
+[data-testid="stHeaderActionButton"] { display: none !important; }
+#MainMenu { display: none !important; }
+footer { visibility: hidden; }
+
+/* Keep header transparent */
+header { background-color: transparent !important; }
+
+/* Force Material icon font back onto the header elements so it renders an icon instead of 'keyboard_double' text */
+header span {
+    font-family: "Material Symbols Rounded", sans-serif !important;
+    color: #666 !important;
+}
+header span:hover {
+    color: #c8ff00 !important;
+}
+
+/* --- SIDEBAR --- */
 [data-testid="stSidebar"] { background-color: #111; border-right: 1px solid #222; }
 [data-testid="stSidebar"] label,
 [data-testid="stSidebar"] .stMarkdown p {
@@ -58,6 +77,8 @@ html, body, [class*="st-"] {
     font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
     font-size: 13px; letter-spacing: 0.22em; color: #c8ff00;
 }
+
+/* --- TYPOGRAPHY & LAYOUT --- */
 .page-header {
     border-bottom: 1px solid #1e1e1e; padding-bottom: 1rem;
     margin-bottom: 1.5rem; display: flex; align-items: baseline; gap: 1.5rem;
@@ -109,10 +130,6 @@ html, body, [class*="st-"] {
     background: rgba(255,82,82,0.08); border: 1px solid rgba(255,82,82,0.2);
     border-radius: 4px; padding: 16px; font-size: 12px; color: #ff5252;
 }
-
-/* HIDDEN ELEMENTS - Header kept visible for sidebar toggle functionality */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
